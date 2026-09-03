@@ -49,5 +49,5 @@ public class Calculations {
                 System.out.println("Invalid Choice :(");
         }
     }
-    
+
 }
