@@ -1,7 +1,4 @@
 package oops_with_java_2026_202501100600124;
-
-import org.w3c.dom.css.Rect;
-
 class Shape{
     void area(){}
 }
