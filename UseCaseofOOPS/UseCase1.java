@@ -51,7 +51,7 @@ class Book {
 }
 
 
-public class libraryManagement {
+public class UseCase1 {
     public static void main(String[] args) {
         Book b1 = new Book("Java Basics", "J. Author", 350.0, "ISBN001");
         Book b2 = new Book("OOP Concepts", "K. Writer", 420.0, "ISBN002");
