@@ -13,7 +13,7 @@ class Student implements Comparable<Student>{
 
     @Override
     public int compareTo(Student o){
-        return this.marks - o.marks;
+        return o.marks - this.marks;
     }
 
     @Override
@@ -78,5 +78,6 @@ public class SortingDemo {
         System.out.println(st);
         st.sort(new NameComparator());
         System.out.println(st);
+        
     }
 }
