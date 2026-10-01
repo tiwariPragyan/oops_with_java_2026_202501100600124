@@ -35,6 +35,15 @@ class CustomComparator implements Comparator<Student>{
     }
 }
 
+class NameComparator implements Comparator<Student>{
+    @Override
+    public int compare(Student o1, Student o2){
+        if(o1.marks != o2.marks){
+            return o2.marks - o1.marks;
+        }
+        return o1.name.compareTo(o2.name);
+    }
+}
 public class SortingDemo {
 
     public static void main(String[] args) {
@@ -66,6 +75,8 @@ public class SortingDemo {
         st.sort(null);
         System.out.println(st);
         st.sort(new CustomComparator());
+        System.out.println(st);
+        st.sort(new NameComparator());
         System.out.println(st);
     }
 }
