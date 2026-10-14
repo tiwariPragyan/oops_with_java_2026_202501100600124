@@ -1,4 +1,4 @@
-package oops_with_java_2026_202501100600124;
+package oops_with_java_2026_202501100600124.oops_basics;
 
 // write a program to demonstrate abstraction in java.
 
