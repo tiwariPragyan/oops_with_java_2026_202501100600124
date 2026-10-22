@@ -15,7 +15,7 @@ public class BookRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // GET ALL BOOKS
+
     public List<Book> findAll() {
 
         String sql = "SELECT * FROM book";

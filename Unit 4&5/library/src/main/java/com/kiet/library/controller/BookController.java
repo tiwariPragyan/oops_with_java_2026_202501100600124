@@ -18,14 +18,12 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    // GET /books
     @GetMapping
     public List<Book> getAllBooks() {
 
         return bookService.getAllBooks();
     }
 
-    // GET /books/{id}
     @GetMapping("/{id}")
     public ResponseEntity<?> getBookById(@PathVariable Long id) {
 
@@ -43,7 +41,6 @@ public class BookController {
         }
     }
 
-    // POST /books
     @PostMapping
     public ResponseEntity<Book> addBook(
             @RequestBody Book book) {
@@ -53,7 +50,6 @@ public class BookController {
         );
     }
 
-    // PUT /books/{id}
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBook(
             @PathVariable Long id,
@@ -73,7 +69,6 @@ public class BookController {
         }
     }
 
-    // DELETE /books/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBook(
             @PathVariable Long id) {

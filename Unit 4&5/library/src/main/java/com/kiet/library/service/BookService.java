@@ -15,12 +15,11 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    // GET ALL
+
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
-    // GET BY ID
     public Book getBookById(Long id) {
 
         Book book = bookRepository.findById(id);
@@ -32,12 +31,11 @@ public class BookService {
         return book;
     }
 
-    // ADD
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }
 
-    // UPDATE
+
     public Book updateBook(Long id, Book book) {
 
         int result = bookRepository.update(id, book);
@@ -51,7 +49,6 @@ public class BookService {
         return book;
     }
 
-    // DELETE
     public String deleteBook(Long id) {
 
         int result = bookRepository.delete(id);
