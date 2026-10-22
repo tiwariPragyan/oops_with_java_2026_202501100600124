@@ -2,6 +2,7 @@ package com.kiet.library.repository;
 
 import com.kiet.library.model.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,47 +16,56 @@ public class BookRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     public List<Book> findAll() {
 
         String sql = "SELECT * FROM book";
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        RowMapper<Book> rowMapper = new RowMapper<Book>() {
 
-            Book book = new Book();
+            @Override
+            public Book mapRow(java.sql.ResultSet rs, int rowNum)
+                    throws java.sql.SQLException {
 
-            book.setId(rs.getLong("id"));
-            book.setTitle(rs.getString("title"));
-            book.setAuthor(rs.getString("author"));
-            book.setCategory(rs.getString("category"));
-            book.setPublicationYear(rs.getInt("publication_year"));
-            book.setAvailable(rs.getBoolean("available"));
+                Book book = new Book();
 
-            return book;
-        });
+                book.setId(rs.getLong("id"));
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setCategory(rs.getString("category"));
+                book.setPublicationYear(rs.getInt("publication_year"));
+                book.setAvailable(rs.getBoolean("available"));
+
+                return book;
+            }
+        };
+
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
     public Book findById(Long id) {
 
         String sql = "SELECT * FROM book WHERE id = ?";
 
-        List<Book> books = jdbcTemplate.query(sql,
-                (rs, rowNum) -> {
+        RowMapper<Book> rowMapper = new RowMapper<Book>() {
 
-                    Book book = new Book();
+            @Override
+            public Book mapRow(java.sql.ResultSet rs, int rowNum)
+                    throws java.sql.SQLException {
 
-                    book.setId(rs.getLong("id"));
-                    book.setTitle(rs.getString("title"));
-                    book.setAuthor(rs.getString("author"));
-                    book.setCategory(rs.getString("category"));
-                    book.setPublicationYear(
-                            rs.getInt("publication_year"));
-                    book.setAvailable(
-                            rs.getBoolean("available"));
+                Book book = new Book();
 
-                    return book;
-                },
-                id);
+                book.setId(rs.getLong("id"));
+                book.setTitle(rs.getString("title"));
+                book.setAuthor(rs.getString("author"));
+                book.setCategory(rs.getString("category"));
+                book.setPublicationYear(rs.getInt("publication_year"));
+                book.setAvailable(rs.getBoolean("available"));
+
+                return book;
+            }
+        };
+
+        List<Book> books = jdbcTemplate.query(sql, rowMapper, id);
 
         if (books.isEmpty()) {
             return null;
@@ -63,6 +73,7 @@ public class BookRepository {
 
         return books.get(0);
     }
+
     public Book save(Book book) {
 
         String sql = """
@@ -82,6 +93,7 @@ public class BookRepository {
 
         return book;
     }
+
     public int update(Long id, Book book) {
 
         String sql = """
