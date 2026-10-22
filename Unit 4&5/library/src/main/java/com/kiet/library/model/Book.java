@@ -1,42 +1,27 @@
 package com.kiet.library.model;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
-
     private String author;
-
     private String category;
-
     private int publicationYear;
-
     private boolean available;
 
-    // Default constructor
     public Book() {
     }
 
-    // Constructor
-    public Book(String title, String author, String category,
-                int publicationYear, boolean available) {
+    public Book(Long id, String title, String author,
+                String category, int publicationYear,
+                boolean available) {
+
+        this.id = id;
         this.title = title;
         this.author = author;
         this.category = category;
         this.publicationYear = publicationYear;
         this.available = available;
     }
-
-    // Getters and Setters
 
     public Long getId() {
         return id;

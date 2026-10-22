@@ -2,6 +2,7 @@ package com.kiet.library.controller;
 
 import com.kiet.library.model.Book;
 import com.kiet.library.service.BookService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,52 +21,74 @@ public class BookController {
     // GET /books
     @GetMapping
     public List<Book> getAllBooks() {
+
         return bookService.getAllBooks();
     }
 
     // GET /books/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+    public ResponseEntity<?> getBookById(@PathVariable Long id) {
 
-        return bookService.getBookById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        try {
+
+            return ResponseEntity.ok(
+                    bookService.getBookById(id)
+            );
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .status(404)
+                    .body("{\"message\":\"Book not found\"}");
+        }
     }
 
     // POST /books
     @PostMapping
-    public ResponseEntity<Book> addBook(@RequestBody Book book) {
+    public ResponseEntity<Book> addBook(
+            @RequestBody Book book) {
 
-        Book savedBook = bookService.addBook(book);
-
-        return ResponseEntity.ok(savedBook);
+        return ResponseEntity.ok(
+                bookService.addBook(book)
+        );
     }
 
     // PUT /books/{id}
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(
+    public ResponseEntity<?> updateBook(
             @PathVariable Long id,
             @RequestBody Book book) {
 
-        Book updatedBook = bookService.updateBook(id, book);
+        try {
 
-        if (updatedBook == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(
+                    bookService.updateBook(id, book)
+            );
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .status(404)
+                    .body("{\"message\":\"Book not found\"}");
         }
-
-        return ResponseEntity.ok(updatedBook);
     }
 
     // DELETE /books/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
+    public ResponseEntity<?> deleteBook(
+            @PathVariable Long id) {
 
-        boolean deleted = bookService.deleteBook(id);
+        try {
 
-        if (!deleted) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(
+                    bookService.deleteBook(id)
+            );
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .status(404)
+                    .body("{\"message\":\"Book not found\"}");
         }
-
-        return ResponseEntity.ok("Book deleted successfully");
     }
 }

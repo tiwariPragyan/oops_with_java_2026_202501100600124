@@ -5,7 +5,6 @@ import com.kiet.library.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -16,49 +15,51 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    // Get all books
+    // GET ALL
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
-    // Get book by ID
-    public Optional<Book> getBookById(Long id) {
-        return bookRepository.findById(id);
+    // GET BY ID
+    public Book getBookById(Long id) {
+
+        Book book = bookRepository.findById(id);
+
+        if (book == null) {
+            throw new RuntimeException("Book not found");
+        }
+
+        return book;
     }
 
-    // Add a new book
+    // ADD
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }
 
-    // Update an existing book
-    public Book updateBook(Long id, Book updatedBook) {
+    // UPDATE
+    public Book updateBook(Long id, Book book) {
 
-        Optional<Book> existingBook = bookRepository.findById(id);
+        int result = bookRepository.update(id, book);
 
-        if (existingBook.isPresent()) {
-            Book book = existingBook.get();
-
-            book.setTitle(updatedBook.getTitle());
-            book.setAuthor(updatedBook.getAuthor());
-            book.setCategory(updatedBook.getCategory());
-            book.setPublicationYear(updatedBook.getPublicationYear());
-            book.setAvailable(updatedBook.isAvailable());
-
-            return bookRepository.save(book);
+        if (result == 0) {
+            throw new RuntimeException("Book not found");
         }
 
-        return null;
+        book.setId(id);
+
+        return book;
     }
 
-    // Delete a book
-    public boolean deleteBook(Long id) {
+    // DELETE
+    public String deleteBook(Long id) {
 
-        if (bookRepository.existsById(id)) {
-            bookRepository.deleteById(id);
-            return true;
+        int result = bookRepository.delete(id);
+
+        if (result == 0) {
+            throw new RuntimeException("Book not found");
         }
 
-        return false;
+        return "Book deleted successfully";
     }
 }
