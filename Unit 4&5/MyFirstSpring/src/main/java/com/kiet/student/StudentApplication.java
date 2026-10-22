@@ -1,4 +1,3 @@
-
 package com.kiet.student;
 
 import org.slf4j.Logger;
@@ -7,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class StudentApplication {
@@ -15,7 +15,12 @@ public class StudentApplication {
             LoggerFactory.getLogger(StudentApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(StudentApplication.class, args);
+        ApplicationContext ac = SpringApplication.run(StudentApplication.class, args);
+        System.out.println(ac.getBeanDefinitionCount() + " beans loaded.");
+        String[] names = ac.getBeanDefinitionNames();
+        for (String name : names) {
+            System.out.println(name);
+        }
     }
 
     @Bean
